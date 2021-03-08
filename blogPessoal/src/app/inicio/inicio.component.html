@@ -6,7 +6,7 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-md-8">
                     <h1 class="fs-54">Seja bem vindo(a)!</h1>
-                    <h5 class="fs-18">Expresse aqui os seus pensamentos e opiniões!</h5>
+                    <h5 class="fs-18">Veja aqui os pokemóns, suas resistências e fraquezas!</h5>
                 </div>
             </div>
 
@@ -44,7 +44,7 @@
 
             <a class="nav-item nav-link text-secondary font-weight-bold" id="nav-postagemTema-tab" data-toggle="tab"
                 href="#nav-postagemTema" role="tab" aria-controls="nav-postagemTema" aria-selected="false">Postagens por
-                Tema</a>
+                Tipo</a>
         </div>
     </nav>
     <div class="tab-content mt-5" id="nav-tabContent">
@@ -63,10 +63,10 @@
 
                 <div class="card text-center" 
                 *ngFor='let item of listaPostagens | orderBy : key : reverse'>
-                    <img class="card-img-top" src=".../100px160/" alt="Imagem de capa do card">
+                    <img class="card-img-top" src="{{item.foto}}" alt="Imagem de capa do card">
                     <div class="card-body">
-                        <h5 class="card-title m-0">{{item.titulo}}</h5>
-                        <small class="text-muted">Tema: {{item.tema.descricao}}</small>
+                        <h5 class="card-title m-0">#{{item.id}} {{item.titulo}}</h5>
+                        <small class="text-muted">Tipo: {{item.tema.descricao}}</small>
                         <p class="card-text mt-3">{{item.texto}}</p>
                         <p class="card-text"><small class="text-muted">{{item.date | date: 'dd/MM/yyyy'}} às {{item.date
                                 | date: 'HH:mm'}}</small></p>
@@ -80,10 +80,10 @@
         <div class="tab-pane fade" id="nav-minhasPostagens" role="tabpanel" aria-labelledby="nav-minhasPostagens-tab">
             <div class="card-columns">
                 <div class="card text-center" *ngFor='let item of user.postagem  | orderBy : key : reverse'>
-                    <img class="card-img-top" src=".../100px160/" alt="Imagem de capa do card">
+                    <img class="card-img-top" src="{{item.foto}}" alt="Imagem de capa do card">
                     <div class="card-body">
-                        <h5 class="card-title m-0">{{item.titulo}}</h5>
-                        <small class="text-muted">Tema: {{item.tema.descricao}}</small>
+                        <h5 class="card-title m-0">#{{item.id}} {{item.titulo}}</h5>
+                        <small class="text-muted">Tipo: {{item.tema.descricao}}</small>
                         <p class="card-text mt-3">{{item.texto}}</p>
                         <p class="card-text"><small class="text-muted">{{item.date | date: 'dd/MM/yyyy'}} às {{item.date
                                 | date: 'HH:mm'}}</small></p>
@@ -98,15 +98,15 @@
             <div class="row d-flex justify-content-center mt-5 mb-5">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <input type="text" class="form-control" id="titulo" placeholder="Digite um tema para pesquisar" [(ngModel)]='nomeTema' (keyup)='findByNomeTema()'>
+                        <input type="text" class="form-control" id="titulo" placeholder="Digite um tipo para pesquisar" [(ngModel)]='nomeTema' (keyup)='findByNomeTema()'>
                     </div>
                 </div>
             </div>
             <div class="card-columns" *ngFor= 'let tema of listaTemas  | orderBy : key : reverse'>
                 <div class="card text-center" *ngFor='let item of tema.postagem'>
-                    <img class="card-img-top" src=".../100px160/" alt="Imagem de capa do card">
+                    <img class="card-img-top" src="{{item.foto}}" alt="Imagem de capa do card">
                     <div class="card-body">
-                        <h5 class="card-title m-0">{{item.titulo}}</h5>
+                        <h5 class="card-title m-0">#{{item.id}} {{item.titulo}}</h5>
                         <p class="card-text mt-3">{{item.texto}}</p>
                         <p class="card-text"><small class="text-muted">{{item.date | date: 'dd/MM/yyyy'}} às {{item.date | date: 'HH:mm'}}</small></p>
                                 <p class="card-text"><small class="text-muted">Por: {{item.usuario.nome}}</small></p>
@@ -134,19 +134,24 @@
                 <div class="form-group">
                     <label for="titulo">Título</label>
                     <input [(ngModel)]='postagem.titulo' type="text" class="form-control" id="titulo"
-                        placeholder="Digite o título">
+                        placeholder="Digite o nome do Pokémon">
                 </div>
                 <div class="form-group">
                     <label for="texto">Texto</label>
                     <textarea [(ngModel)]='postagem.texto' class="form-control" name="texto" id="texto"
-                        rows="3"></textarea>
+                        rows="3" placeholder="Digite um texto"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="texto">Escolha um tema ou <a data-dismiss="modal" routerLink="/tema">cadastre um
+                    <label *ngIf='authService.adm()' for="texto">Escolha um tipo ou <a data-dismiss="modal" routerLink="/tema">cadastre um
                             novo</a>:</label>
                     <select class="form-control" name="tema" id="tema" [(ngModel)]='idTema' (change)='findByIdTema()'>
                         <option *ngFor='let item of listaTemas' value="{{item.id}}">{{item.descricao}}</option>
                     </select>
+                </div>
+                <div class="form-grup">
+                    <label for="foto">Link da Foto</label>
+                    <input [(ngModel)]='postagem.foto' type="text" class="form-control" id="foto"
+                        placeholder="URL">
                 </div>
             </div>
             <div class="modal-footer">
