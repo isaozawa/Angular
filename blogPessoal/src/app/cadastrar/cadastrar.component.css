@@ -1,0 +1,9 @@
+#img-bg{
+    /* para pegar uma imagem em assets: ../../assets */
+    background-image: url("https://i.imgur.com/aP9dLeI.jpg");
+
+    min-height: 939px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
